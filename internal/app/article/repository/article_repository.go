@@ -33,3 +33,21 @@ func (a *articleRepository) Fetch(ctx context.Context, pagination domain.Paginat
 	}
 	return articles, nil
 }
+
+func (a *articleRepository) GetByID(ctx context.Context, id int64) (res domain.Article, err error) {
+	result := a.db.Joins("Author").First(&res, id)
+	if result.Error != nil {
+		msg := result.Error
+		return res, msg
+	}
+	return res, nil
+}
+
+func (a *articleRepository) Store(ctx context.Context, article *domain.Article) (err error) {
+	result := a.db.Create(&article)
+	if result.Error != nil {
+		msg := result.Error
+		return msg
+	}
+	return
+}

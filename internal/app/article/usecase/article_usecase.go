@@ -29,3 +29,23 @@ func (a *articleUsecase) Fetch(c context.Context, pagination domain.Pagination) 
 
 	return
 }
+
+func (a *articleUsecase) GetByID(ctx context.Context, id int64) (res domain.Article, err error) {
+	ctx, cancel := context.WithTimeout(ctx, a.contextTimeout)
+	defer cancel()
+
+	res, err = a.articleRepo.GetByID(ctx, id)
+	if err != nil {
+		return res, err
+	}
+
+	return
+}
+
+func (a *articleUsecase) Store(c context.Context, m *domain.Article) (err error) {
+	ctx, cancel := context.WithTimeout(c, a.contextTimeout)
+	defer cancel()
+
+	err = a.articleRepo.Store(ctx, m)
+	return
+}
