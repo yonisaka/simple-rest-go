@@ -20,8 +20,8 @@ type ArticleUsecase interface {
 	GetByID(ctx context.Context, id int64) (Article, error)
 	// GetByTitle(ctx context.Context, title string) (Article, error)
 	Store(context.Context, *Article) error
-	// Update(ctx context.Context, ar *Article) error
-	// Delete(ctx context.Context, id int64) error
+	Update(ctx context.Context, ar *Article) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type ArticleRepository interface {
@@ -29,6 +29,6 @@ type ArticleRepository interface {
 	GetByID(ctx context.Context, id int64) (Article, error)
 	// GetByTitle(ctx context.Context, title string) (Article, error)
 	Store(ctx context.Context, a *Article) error
-	// Update(ctx context.Context, ar *Article) error
-	// Delete(ctx context.Context, id int64) error
+	Update(ctx context.Context, ar *Article) error
+	Delete(ctx context.Context, id int64) error
 }

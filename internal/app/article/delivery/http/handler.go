@@ -23,6 +23,8 @@ func NewArticleHandler(r *gin.Engine, ucase domain.ArticleUsecase) {
 	article.GET("/", handler.getArticles)
 	article.GET("/:id", handler.getArticleByID)
 	article.POST("/", handler.store)
+	article.PUT("/", handler.update)
+	article.DELETE("/:id", handler.delete)
 }
 
 func (a *ArticleHandler) getArticles(c *gin.Context) {
@@ -101,6 +103,59 @@ func (a *ArticleHandler) store(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"data": article,
+	})
+}
+
+func (a *ArticleHandler) update(c *gin.Context) {
+	var article domain.Article
+	err := c.Bind(&article)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var ok bool
+	if ok, err = isRequestValid(&article); !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = a.ArticleUcase.Update(c, &article)
+	if err != nil {
+		c.JSON(getStatusCode(err), gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"data": article,
+	})
+}
+
+func (a *ArticleHandler) delete(c *gin.Context) {
+	idP, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": utils.ErrBadParamInput.Error(),
+		})
+		return
+	}
+	id := int64(idP)
+	err = a.ArticleUcase.Delete(c, id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": err,
 	})
 }
 

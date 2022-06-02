@@ -51,3 +51,21 @@ func (a *articleRepository) Store(ctx context.Context, article *domain.Article) 
 	}
 	return
 }
+
+func (a *articleRepository) Update(ctx context.Context, article *domain.Article) (err error) {
+	result := a.db.Model(&article).Updates(article)
+	if result.Error != nil {
+		msg := result.Error
+		return msg
+	}
+	return
+}
+
+func (a *articleRepository) Delete(ctx context.Context, id int64) (err error) {
+	result := a.db.Delete(&domain.Article{}, id)
+	if result.Error != nil {
+		msg := result.Error
+		return msg
+	}
+	return
+}
