@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"simple-rest-go/internal/app/domain"
 	"time"
 )
@@ -64,6 +63,5 @@ func (a *articleUsecase) Delete(ctx context.Context, id int64) (err error) {
 	defer cancel()
 
 	err = a.articleRepo.Delete(ctx, id)
-	fmt.Println(err)
 	return
 }
