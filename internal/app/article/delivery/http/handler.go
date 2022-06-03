@@ -40,7 +40,8 @@ func (a *ArticleHandler) getArticles(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": articleList,
+		"message": "Fetch Succesfully",
+		"data":    articleList,
 	})
 }
 
@@ -62,7 +63,8 @@ func (a *ArticleHandler) getArticleByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": article,
+		"message": "Fetch By ID Succesfully",
+		"data":    article,
 	})
 }
 
@@ -102,7 +104,8 @@ func (a *ArticleHandler) store(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"data": article,
+		"message": "Created Succesfully",
+		"data":    article,
 	})
 }
 
@@ -133,7 +136,8 @@ func (a *ArticleHandler) update(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"data": article,
+		"message": "Updated Succesfully",
+		"data":    article,
 	})
 }
 
@@ -155,7 +159,7 @@ func (a *ArticleHandler) delete(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": err,
+		"message": "Deleted Succesfully",
 	})
 }
 
