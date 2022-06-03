@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,20 +13,20 @@ import (
 	"simple-rest-go/internal/app/mysql"
 )
 
+func init() {
+	viper.SetConfigFile(`config.json`)
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	if viper.GetBool(`debug`) {
+		log.Println("Service RUN on DEBUG mode")
+	}
+}
+
 func main() {
 	r := gin.Default()
-	// set default enviroment
-	viper.SetDefault("DB_HOST", "localhost")
-	viper.SetDefault("DB_PORT", "3306")
-	viper.SetDefault("DB_USER", "root")
-	viper.SetDefault("DB_PASS", "")
-	viper.SetDefault("DB_NAME", "simple-rest-go")
-
-	viper.BindEnv("DB_HOST", "DB_HOST")
-	viper.BindEnv("DB_PORT", "DB_PORT")
-	viper.BindEnv("DB_USER", "DB_USER")
-	viper.BindEnv("DB_PASS", "DB_PASS")
-	viper.BindEnv("DB_NAME", "DB_NAME")
 
 	db := mysql.Connection()
 	timeoutContext := time.Duration(5 * time.Second)
