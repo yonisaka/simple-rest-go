@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"simple-rest-go/internal/app/domain"
 
 	"gorm.io/gorm"
@@ -67,5 +68,11 @@ func (a *articleRepository) Delete(ctx context.Context, id int64) (err error) {
 		msg := result.Error
 		return msg
 	}
+
+	if result.RowsAffected != 1 {
+		err = fmt.Errorf("weird behavior. total affected: %d", result.RowsAffected)
+		return
+	}
+
 	return
 }

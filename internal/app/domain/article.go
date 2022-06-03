@@ -5,6 +5,9 @@ import (
 	"time"
 )
 
+//go:generate rm -f ./article_usecase_mock.go
+//go:generate moq -out ./article_usecase_mock.go . ArticleUsecase:ArticleUsecaseMock
+
 type Article struct {
 	ID        int64     `json:"id" gorm:"primaryKey"`
 	Title     string    `json:"title" gorm:"type:varchar(100);not null" validate:"required"`
