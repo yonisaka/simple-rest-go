@@ -6,10 +6,10 @@ import (
 )
 
 type Author struct {
-	ID        int64     `json="id"`
-	Name      string    `json="name" gorm:"type:varchar(100);not null"`
-	CreatedAt time.Time `json="created_at" gorm:"default:CURRENT_TIMESTAMP"`
-	UpdatedAt time.Time `json="updated_at" gorm:"default:CURRENT_TIMESTAMP"`
+	ID        int64     `json:"id" gorm:"primaryKey"`
+	Name      string    `json:"name" gorm:"type:varchar(100);not null" validate:"required"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP"`
 }
 
 type AuthorRepository interface {
